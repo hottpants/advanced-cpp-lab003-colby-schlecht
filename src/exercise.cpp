@@ -4,17 +4,20 @@
 
 // TODO: Implement default constructor.
 DynamicBuffer::DynamicBuffer() {
-    
+    DynamicBuffer(0);
+
 }
 
 // TODO: Implement allocation and initialization.
 // Use a C++ array allocated with new[] and zero-initialize the contents.
 DynamicBuffer::DynamicBuffer(size_t capacity) {
+    data_ = new int[capacity];
+    size_ = capacity;
 }
 
 // TODO: Implement deep-copy constructor.
 DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
-    
+
 }
 
 // TODO: Implement move constructor.
@@ -44,13 +47,13 @@ DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
 // TODO: Return the current managed size.
 size_t DynamicBuffer::size() const noexcept {
     
-    return 15;
+    return size_;
 }
 
 // TODO: Return true if the buffer is empty.
 bool DynamicBuffer::empty() const noexcept {
     
-    return False;
+    return false;
 }
 
 // TODO: Implement resize with resource ownership and exception safety.
