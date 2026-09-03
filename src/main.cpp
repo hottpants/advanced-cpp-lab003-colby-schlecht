@@ -21,14 +21,14 @@ int main() {
     std::cout << "Copy[2] = " << copy[2] << "\n";
     std::cout << "Original[2] = " << values[2] << "\n";
 
-    DynamicBuffer moved(std::move(values));
-   // std::cout << "Moved[0] = " << moved[0] << "\n";
-    //std::cout << "Original bool = " << (values ? "true" : "false") << "\n";
+    /*DynamicBuffer moved(std::move(values));
+    std::cout << "Moved[0] = " << moved[0] << "\n";
+    std::cout << "Original bool = " << (values ? "true" : "false") << "\n";*/
 
     DynamicBuffer resized(3);
     resized.fill(4);
     resized.resize(6);
-    //resized[5] = 99;
+    resized[5] = 99;
     std::cout << "Resized[5] = " << resized[5] << "\n";
 
     return 0;

@@ -7,7 +7,6 @@
 DynamicBuffer::DynamicBuffer() {
     data_ = {};
     size_ = 0;
-
 }
 
 // TODO: Implement allocation and initialization.
@@ -15,13 +14,14 @@ DynamicBuffer::DynamicBuffer() {
 DynamicBuffer::DynamicBuffer(size_t capacity) {
     data_ = new int[capacity];
     size_ = capacity;
-    
+    fill(0);
 }
 
 // TODO: Implement deep-copy constructor.
 DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
     data_ = other.data_;
     size_ = other.size_;
+    
 }
 
 // TODO: Implement move constructor.
@@ -36,15 +36,14 @@ DynamicBuffer::~DynamicBuffer() {
 
 // TODO: Implement copy assignment with self-assignment protection.
 DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
-    
-    
+    fill(999);
+
     return *this;
 }
 
 // TODO: Implement move assignment.
 DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
-    
-
+    fill(999);
     return *this;
 }
 
@@ -63,14 +62,14 @@ bool DynamicBuffer::empty() const noexcept {
 // TODO: Implement resize with resource ownership and exception safety.
 // Keep all existing values up to the minimum of old and new sizes.
 void DynamicBuffer::resize(size_t newSize) {
-    std::cout << "data_[0] = " << at(0) << std::endl;
-    DynamicBuffer* resizedData_ = new DynamicBuffer(newSize);
-    resizedData_->fill(0);
-    resizedData_->copyFrom(*this);
+    std::cout << "OLDSIZE: " << size_ << std::endl;
+    /*DynamicBuffer* resizedBuffer = new DynamicBuffer(newSize);
+    resizedBuffer->copyFrom(*this);
     size_ = newSize;
     delete[] data_;
-    std::cout << "resizedData_[0] = " << resizedData_->at(0) << std::endl;
-    data_ = resizedData_->data_;
+    data_ = resizedBuffer->data_;
+    delete[] resizedBuffer;*/
+    std::cout << "NEWSIZE: " << newSize << std::endl;
 }
 
 // TODO: Fill all elements with the given value.
@@ -94,12 +93,15 @@ int DynamicBuffer::at(size_t index) const {
 
 // TODO: Return a reference without bounds checking.
 int& DynamicBuffer::operator[](size_t index) {
+    std::cout << "LINE 94: " << index << std::endl;
     return data_[index];
 }
 
 // TODO: Return const reference without bounds checking.
 const int& DynamicBuffer::operator[](size_t index) const {
+    std::cout << "LINE 99" << std::endl;
     return data_[index];
+    
 
 }
 
