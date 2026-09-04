@@ -29,10 +29,8 @@ int main() {
 
     DynamicBuffer resized(3);
     resized.fill(4);
-
     resized.resize(6);
     resized[5] = 99;
-
     std::cout << "Resized[5] = " << resized[5] << "\n";
 
     return 0;

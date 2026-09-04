@@ -30,10 +30,13 @@ DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
 
 // TODO: Implement move constructor.
 DynamicBuffer::DynamicBuffer(DynamicBuffer&& other) noexcept {
-    data_ = new int[other.size_];
-    data_ = other.data_;
-    size_ = other.size_;
-    other.data_ = nullptr;
+    if(*this != other) {
+        delete[] data_;
+        data_ = other.data_;
+        size_ = other.size_;
+        other.data_ = nullptr;
+        other.size_ = 0;
+    }
 }
 
 // TODO: Implement destructor with proper cleanup.
@@ -61,7 +64,7 @@ DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
 DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
     if(*this != other) {
         delete[] data_;
-        
+
         data_ = other.data_;
         size_ = other.size_;
 
