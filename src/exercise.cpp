@@ -19,31 +19,46 @@ DynamicBuffer::DynamicBuffer(size_t capacity) {
 
 // TODO: Implement deep-copy constructor.
 DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
-    data_ = other.data_;
+    delete[] data_;
+    data_ = new int[other.size_];
+    for (int i = 0; i < other.size_; i++) {
+        setAt(i, other.at(i));
+    }
     size_ = other.size_;
     
 }
 
 // TODO: Implement move constructor.
 DynamicBuffer::DynamicBuffer(DynamicBuffer&& other) noexcept {
-
+    data_ = other.data_;
+    size_ = other.size_;
+    other.data_ = nullptr;
 }
 
 // TODO: Implement destructor with proper cleanup.
 DynamicBuffer::~DynamicBuffer() {
-    
+    //std::cout << "DELETING DATA" << std::endl;
+    //delete[] data_;
 }
 
 // TODO: Implement copy assignment with self-assignment protection.
 DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
-    fill(999);
+    if(*this != other) {
+        delete[] data_;
+        data_ = new int[other.size_];
+        for (int i = 0; i < other.size_; i++) {
+            setAt(i, other.at(i));
+        }
+    }
 
     return *this;
 }
 
 // TODO: Implement move assignment.
 DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
-    fill(999);
+    data_ = other.data_;
+    size_ = other.size_;
+    other.data_ = nullptr;
     return *this;
 }
 
@@ -56,20 +71,19 @@ size_t DynamicBuffer::size() const noexcept {
 // TODO: Return true if the buffer is empty.
 bool DynamicBuffer::empty() const noexcept {
 
-    return true;
+    if(data_ == nullptr) { return true; }
+    return false;
 }
 
 // TODO: Implement resize with resource ownership and exception safety.
 // Keep all existing values up to the minimum of old and new sizes.
 void DynamicBuffer::resize(size_t newSize) {
-    std::cout << "OLDSIZE: " << size_ << std::endl;
-    /*DynamicBuffer* resizedBuffer = new DynamicBuffer(newSize);
+    DynamicBuffer* resizedBuffer = new DynamicBuffer(newSize);
     resizedBuffer->copyFrom(*this);
     size_ = newSize;
     delete[] data_;
     data_ = resizedBuffer->data_;
-    delete[] resizedBuffer;*/
-    std::cout << "NEWSIZE: " << newSize << std::endl;
+    delete[] resizedBuffer;
 }
 
 // TODO: Fill all elements with the given value.
@@ -93,15 +107,12 @@ int DynamicBuffer::at(size_t index) const {
 
 // TODO: Return a reference without bounds checking.
 int& DynamicBuffer::operator[](size_t index) {
-    std::cout << "LINE 94: " << index << std::endl;
     return data_[index];
 }
 
 // TODO: Return const reference without bounds checking.
 const int& DynamicBuffer::operator[](size_t index) const {
-    std::cout << "LINE 99" << std::endl;
     return data_[index];
-    
 
 }
 
