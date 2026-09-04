@@ -59,12 +59,15 @@ DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
 
 // TODO: Implement move assignment.
 DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
-    data_ = new int[other.size_];
-    std::cout << "lin62data1: " << data_[0] << std::endl;
-    data_ = other.data_;
-    std::cout << "lin64data1: " << data_[0] << std::endl;
-    size_ = other.size_;
-    other.data_ = nullptr;
+    if(*this != other) {
+        delete[] data_;
+        
+        data_ = other.data_;
+        size_ = other.size_;
+
+        other.size_ = 0;
+        other.data_ = nullptr;
+    }
     return *this;
 }
 
@@ -87,14 +90,10 @@ void DynamicBuffer::resize(size_t newSize) {
     DynamicBuffer* resizedBuffer = new DynamicBuffer(newSize);
     resizedBuffer->copyFrom(*this);
     size_ = newSize;
-    std::cout << "data1: " << resizedBuffer->at(0) << std::endl;
     delete[] data_;
-    std::cout << "DATA->" << resizedBuffer->data_ << std::endl;
     data_ = resizedBuffer->data_;
     resizedBuffer->data_ = nullptr;
-    std::cout << "pdata1:" << data_[0] << std::endl;
     delete resizedBuffer;
-    std::cout << "pddata1:" << data_[0] << std::endl;
 }
 
 // TODO: Fill all elements with the given value.
