@@ -29,8 +29,15 @@ int main() {
 
     DynamicBuffer resized(3);
     resized.fill(4);
+
+    /*DynamicBuffer c(1);
+    c = std::move(resized);*/
+
     resized.resize(6);
-    resized[5] = 99;
+    //resized[5] = 99;
+
+    if(resized[0] == 4) { std::cout << "Passed" << std::endl; }
+    std::cout << "Resized[1] = " << resized[1] << "\n"; 
     std::cout << "Resized[5] = " << resized[5] << "\n";
 
     return 0;

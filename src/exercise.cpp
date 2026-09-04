@@ -19,7 +19,7 @@ DynamicBuffer::DynamicBuffer(size_t capacity) {
 
 // TODO: Implement deep-copy constructor.
 DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
-    delete[] data_;
+    //delete[] data_;
     data_ = new int[other.size_];
     for (int i = 0; i < other.size_; i++) {
         setAt(i, other.at(i));
@@ -30,6 +30,7 @@ DynamicBuffer::DynamicBuffer(const DynamicBuffer& other) {
 
 // TODO: Implement move constructor.
 DynamicBuffer::DynamicBuffer(DynamicBuffer&& other) noexcept {
+    data_ = new int[other.size_];
     data_ = other.data_;
     size_ = other.size_;
     other.data_ = nullptr;
@@ -37,14 +38,16 @@ DynamicBuffer::DynamicBuffer(DynamicBuffer&& other) noexcept {
 
 // TODO: Implement destructor with proper cleanup.
 DynamicBuffer::~DynamicBuffer() {
-    //std::cout << "DELETING DATA" << std::endl;
-    //delete[] data_;
+    std::cout << "DELETING DATA 1" << std::endl;
+    delete[] data_;
+    std::cout << "DELETING DATA 2" << std::endl;
+   
 }
 
 // TODO: Implement copy assignment with self-assignment protection.
 DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
     if(*this != other) {
-        delete[] data_;
+        //delete[] data_;
         data_ = new int[other.size_];
         for (int i = 0; i < other.size_; i++) {
             setAt(i, other.at(i));
@@ -56,7 +59,10 @@ DynamicBuffer& DynamicBuffer::operator=(const DynamicBuffer& other) {
 
 // TODO: Implement move assignment.
 DynamicBuffer& DynamicBuffer::operator=(DynamicBuffer&& other) noexcept {
+    data_ = new int[other.size_];
+    std::cout << "lin62data1: " << data_[0] << std::endl;
     data_ = other.data_;
+    std::cout << "lin64data1: " << data_[0] << std::endl;
     size_ = other.size_;
     other.data_ = nullptr;
     return *this;
@@ -81,9 +87,14 @@ void DynamicBuffer::resize(size_t newSize) {
     DynamicBuffer* resizedBuffer = new DynamicBuffer(newSize);
     resizedBuffer->copyFrom(*this);
     size_ = newSize;
+    std::cout << "data1: " << resizedBuffer->at(0) << std::endl;
     delete[] data_;
+    std::cout << "DATA->" << resizedBuffer->data_ << std::endl;
     data_ = resizedBuffer->data_;
-    delete[] resizedBuffer;
+    resizedBuffer->data_ = nullptr;
+    std::cout << "pdata1:" << data_[0] << std::endl;
+    delete resizedBuffer;
+    std::cout << "pddata1:" << data_[0] << std::endl;
 }
 
 // TODO: Fill all elements with the given value.
@@ -138,8 +149,9 @@ void DynamicBuffer::release() {
 
 // TODO: Deep-copy the other object's contents.
 void DynamicBuffer::copyFrom(const DynamicBuffer& other) {
-    for(int i = 0; i < ((other.size() < size()) ? other.size() : size()); i++) {
-        setAt(i, other.at(i));
+    int minSize = (other.size() < size()) ? other.size() : size();
+    for(int i = 0; i < minSize; i++) {
+        setAt(i, other[i]);
     }
 }
 
