@@ -30,9 +30,6 @@ int main() {
     DynamicBuffer resized(3);
     resized.fill(4);
 
-    DynamicBuffer c(1);
-    c = std::move(resized);
-
     resized.resize(6);
     resized[5] = 99;
 
